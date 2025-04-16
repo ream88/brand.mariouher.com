@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LUXURY BRAND</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .font-playfair {
+        font-family: "Playfair Display", serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-50 min-h-screen flex flex-col">
+    <nav class="bg-black text-white py-4">
+      <div class="container mx-auto px-4">
+        <h1 class="font-playfair text-2xl text-center">LUXURY BRAND</h1>
+      </div>
+    </nav>
+
+    <main
+      class="max-w-6xl mx-auto px-16 py-24 grow flex gap-16 flex-col lg:flex-row items-center justify-center"
+    >
+      <div class="grid grid-cols-3 gap-4 grow-2">
+        <img
+          src="https://placehold.co/600x400"
+          class="w-full rounded-lg col-span-full"
+        />
+        <img
+          src="https://placehold.co/600x400"
+          class="w-full h-24 object-cover rounded-lg"
+        />
+        <img
+          src="https://placehold.co/600x400"
+          class="w-full h-24 object-cover rounded-lg"
+        />
+        <img
+          src="https://placehold.co/600x400"
+          class="w-full h-24 object-cover rounded-lg"
+        />
+      </div>
+
+      <div class="space-y-2 grow-1 w-full">
+        <h2 class="font-playfair text-4xl" id="product_name">Product name</h2>
+        <p class="text-gray-600 text-lg">Limited Edition</p>
+
+        <p class="!mt-4 text-gray-600 text-sm">Lengthy product description</p>
+
+        <div
+          class="!mt-8 bg-green-50 border border-green-200 rounded-lg p-6 mt-6"
+        >
+          <h3 class="text-green-700 font-bold text-lg mb-2">
+            Verification Status
+          </h3>
+          <div class="space-y-4">
+            <p class="text-green-700">✓ Product verified as authentic</p>
+            <p class="text-green-700">✓ Verified on this device</p>
+            <p class="text-green-700">✓ Last verified at …</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-black text-white py-8 mt-12">
+      <div class="container mx-auto px-4 text-center">
+        <p class="text-sm text-gray-400">
+          © 2025 Luxury Brand. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
