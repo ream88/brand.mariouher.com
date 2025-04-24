@@ -48,28 +48,78 @@
       </div>
 
       <div class="grow-1 w-full space-y-2">
-        <div
-          class="rounded-lg border border-green-200 bg-green-50 p-6"
-          id="verification_status"
-        >
-          <h3 class="mb-2 text-lg font-bold text-green-700">
-            Verification Status
-          </h3>
-          <div class="space-y-4">
-            <p class="text-green-700">✓ Product verified as authentic</p>
-            <p class="text-green-700">✓ Verified on this device</p>
-            <p class="text-green-700">✓ Last verified at …</p>
-          </div>
+        <div class="hidden space-y-4 rounded-lg border p-6" id="verification">
+          <h3 class="text-lg font-bold">Verification Status</h3>
+          <div class="space-y-4" id="verification_messages"></div>
         </div>
 
-        <h2 class="font-playfair !mt-8 text-4xl" id="product_name">
+        <h2 class="font-playfair !mt-8 text-4xl" id="product_title">
           Product name
         </h2>
         <p class="text-lg text-gray-600">Limited Edition</p>
 
-        <p class="!mt-4 text-sm text-gray-600">Lengthy product description</p>
+        <p class="!mt-4 text-sm text-gray-600" id="product_description">
+          Lengthy product description
+        </p>
       </div>
     </main>
+
+    <template id="info">
+      <p class="flex items-center gap-2 text-green-700">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6 shrink-0"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m4.5 12.75 6 6 9-13.5"
+          />
+        </svg>
+      </p>
+    </template>
+
+    <template id="warning">
+      <p class="flex items-center gap-2 text-yellow-700">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6 shrink-0"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+          />
+        </svg>
+      </p>
+    </template>
+
+    <template id="error">
+      <p class="flex items-center gap-2 text-red-700">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6 shrink-0"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+      </p>
+    </template>
 
     <footer class="mt-12 bg-black py-8 text-white">
       <div class="container mx-auto px-4 text-center">
@@ -87,23 +137,39 @@
         if (params.has(paramName)) {
           const url = `https://tagbase.mariouher.com/verifications/${params.get(paramName)}`;
 
-          try {
-            const response = await fetch(url, {
-              method: "GET",
-              headers: {
-                accept: "application/json",
-              },
-              credentials: "include",
-            });
+          const response = await fetch(url, {
+            method: "GET",
+            headers: {
+              accept: "application/json",
+            },
+            credentials: "include",
+          });
 
-            if (!response.ok) {
-              throw new Error(`Response status: ${response.status}`);
-            }
-
+          if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+          } else {
             const json = await response.json();
             console.log(json);
-          } catch (error) {
-            console.error(error.message);
+
+            document.querySelector("#product_title").innerHTML =
+              json.data.title;
+            document.querySelector("#product_description").innerHTML =
+              json.data.description;
+
+            document.querySelector("#verification").classList.remove("hidden");
+
+            json.messages.forEach(({ type, text }) => {
+              const message = document
+                .querySelector(`#${type}`)
+                .content.cloneNode(true);
+              message
+                .querySelector("p")
+                .appendChild(document.createTextNode(text));
+
+              document
+                .querySelector("#verification_messages")
+                .appendChild(message);
+            });
           }
         }
       }
