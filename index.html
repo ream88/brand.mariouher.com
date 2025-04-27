@@ -170,7 +170,40 @@
                 .querySelector("#verification_messages")
                 .appendChild(message);
             });
+
+            updateLocation();
           }
+        }
+      }
+
+      function updateLocation() {
+        const paramName = "tagbase_id";
+        const params = new URLSearchParams(window.location.search);
+
+        if (params.has(paramName)) {
+          const url = `https://tagbase.mariouher.com/verifications/${params.get(paramName)}`;
+
+          navigator.geolocation.getCurrentPosition(
+            async ({ coords }) => {
+              const response = await fetch(url, {
+                method: "PATCH",
+                headers: {
+                  accept: "application/json",
+                  "content-type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                  latitude: coords.latitude,
+                  longitude: coords.longitude,
+                  accuracy: coords.accuracy,
+                }),
+              });
+              console.log(response);
+            },
+            (error) => {
+              console.error(error);
+            },
+          );
         }
       }
 
